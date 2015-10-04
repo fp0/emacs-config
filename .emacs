@@ -1,0 +1,78 @@
+;; OS specific settings
+(cond
+ ((string-equal system-type "windows-nt") ; Microsoft Windows
+  (progn
+    (message "Microsoft Windows")))
+ ((string-equal system-type "darwin") ; Mac OS X
+  (progn
+    (message "Mac OS X")
+    
+    ;; setup mac environment variables
+    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+    (setq exec-path (append exec-path '("/usr/local/bin")))
+    
+    ;; use MIT scheme
+    (setq scheme-program-name
+	  "/Applications/MIT:GNUScheme.app/Contents/Resources/mit-scheme")
+    (require 'xscheme)
+    
+    ;;sbcl
+    (setq inferior-lisp-program "sbcl")))
+ ((string-equal system-type "gnu/linux") ; linux
+  (progn
+    (message "Linux")))
+
+ )
+
+
+;; remove toolbar
+(tool-bar-mode -1)
+
+;; packages
+(require 'package)
+
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/"))
+
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+
+(package-initialize)
+
+
+;; org mode setup
+(require 'org-install)
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((sh . true) (python . true) (lisp . true) (scheme . true))
+)
+
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+; slime
+(setq slime-contribs '(slime-fancy))
+
+; theme
+(load-theme 'twilight t)
+
+;; hippie expand - provides a variety of completions and expansions
+(setq hippie-expand-try-functions-list
+      '(try-expand-dabbrev
+	try-expand-dabbrev-all-buffers
+	try-expand-dabbrev-from-kill
+	try-complete-file-name-partially
+	try-complete-file-name
+	try-expand-all-abbrevs
+	try-expand-list
+	try-expand-line
+	try-complete-lisp-symbol-partially
+	try-complete-lisp-symbol))
+
+;; Save here instead of littering current directory with emacs backup files
+(setq backup-directory-alist `(("." . "~/.saves")))
+
+
