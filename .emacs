@@ -16,14 +16,14 @@
 	  "/Applications/MIT:GNUScheme.app/Contents/Resources/mit-scheme")
     (require 'xscheme)
     
-    ;;sbcl
+    ;; set lisp system
     (setq inferior-lisp-program "sbcl")))
  ((string-equal system-type "gnu/linux") ; linux
   (progn
-    (message "Linux")))
+    (message "Linux")
 
- )
-
+    ;; set lisp system
+    (setq inferior-lisp-program "/usr/local/bin/sbcl"))))
 
 ;; remove toolbar
 (tool-bar-mode -1)
@@ -48,15 +48,10 @@
  '((sh . true) (python . true) (lisp . true) (scheme . true))
 )
 
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
-
-; slime
+;; slime
 (setq slime-contribs '(slime-fancy))
 
-; theme
+;; theme
 (load-theme 'twilight t)
 
 ;; hippie expand - provides a variety of completions and expansions
