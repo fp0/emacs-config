@@ -2,7 +2,22 @@
 (cond
  ((string-equal system-type "windows-nt") ; Microsoft Windows
   (progn
-    (message "Microsoft Windows")))
+     (message "Microsoft Windows")
+
+    ;; set lisp system
+     (setq inferior-lisp-program "C:/sbcl/1.2.7/sbcl.exe")
+
+    ;; env PATH
+    (defun set-exec-path-from-shell-PATH ()
+      (let ((path-from-shell (shell-command-to-string "$SHELL -i -c 'echo $PATH'")))
+	(setenv "PATH" path-from-shell)
+	(setq exec-path (split-string path-from-shell path-separator))))
+
+    ;; spell checking
+    (custom-set-variables
+     '(ispell-dictionary "english")
+     '(ispell-program-name "C:\\Program Files (x86)\\Aspell\\bin\\aspell.exe"))))
+ 
  ((string-equal system-type "darwin") ; Mac OS X
   (progn
     (message "Mac OS X")
@@ -38,14 +53,17 @@
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+
 (package-initialize)
 
 
 ;; org mode setup
 (require 'org-install)
+(require 'ox-md)
 (org-babel-do-load-languages
  'org-babel-load-languages
- '((sh . true) (python . true) (lisp . true) (scheme . true))
+ '((sh . true) (python . true) (lisp . true) (scheme . true) (ditaa . true))
 )
 
 ;; slime
