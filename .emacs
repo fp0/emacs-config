@@ -2,10 +2,10 @@
 (cond
  ((string-equal system-type "windows-nt") ; Microsoft Windows
   (progn
-     (message "Microsoft Windows")
+    (message "Microsoft Windows")
 
     ;; set lisp system
-     (setq inferior-lisp-program "C:/sbcl/1.2.7/sbcl.exe")
+    (setq inferior-lisp-program "C:/sbcl/1.2.7/sbcl.exe")
 
     ;; env PATH
     (defun set-exec-path-from-shell-PATH ()
@@ -17,7 +17,7 @@
     (custom-set-variables
      '(ispell-dictionary "english")
      '(ispell-program-name "C:\\Program Files (x86)\\Aspell\\bin\\aspell.exe"))))
- 
+
  ((string-equal system-type "darwin") ; Mac OS X
   (progn
     (message "Mac OS X")
@@ -57,14 +57,19 @@
 
 (package-initialize)
 
-
 ;; org mode setup
 (require 'org-install)
 (require 'ox-md)
+(require 'ox-odt)
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((sh . true) (python . true) (lisp . true) (scheme . true) (ditaa . true))
 )
+
+;; don't show validate link in html export footer
+(setq org-html-validation-link nil)
+
+(setq org-src-fontify-natively t)
 
 ;; slime
 (setq slime-contribs '(slime-fancy))
@@ -87,5 +92,3 @@
 
 ;; Save here instead of littering current directory with emacs backup files
 (setq backup-directory-alist `(("." . "~/.saves")))
-
-
