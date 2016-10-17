@@ -1,5 +1,6 @@
 # Emacs Configuration
 
-## About
+## Using
 
-Just a place to store my configuration file
+1. Copy the file to ~/.emacs.d/
+2. Open emacs and install the twighlight theme: `M-x packages-list-packages`
