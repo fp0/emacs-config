@@ -1,11 +1,8 @@
 ;; OS specific settings
 (cond
- ((string-equal system-type "windows-nt") ; Microsoft Windows
+ ((string-equal system-type "windows-nt")
   (progn
     (message "Microsoft Windows")
-
-    ;; set lisp system
-    (setq inferior-lisp-program "C:/sbcl/1.2.7/sbcl.exe")
 
     ;; env PATH
     (defun set-exec-path-from-shell-PATH ()
@@ -18,30 +15,20 @@
      '(ispell-dictionary "english")
      '(ispell-program-name "C:\\Program Files (x86)\\Aspell\\bin\\aspell.exe"))))
 
- ((string-equal system-type "darwin") ; Mac OS X
+ ((string-equal system-type "darwin")
   (progn
     (message "Mac OS X")
     
     ;; setup mac environment variables
     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-    (setq exec-path (append exec-path '("/usr/local/bin")))
-    
-    ;; use MIT scheme
-    (setq scheme-program-name
-	  "/Applications/MIT:GNUScheme.app/Contents/Resources/mit-scheme")
-    (require 'xscheme)
-    
-    ;; set lisp system
-    (setq inferior-lisp-program "sbcl")))
- ((string-equal system-type "gnu/linux") ; linux
-  (progn
-    (message "Linux")
+    (setq exec-path (append exec-path '("/usr/local/bin")))))
 
-    ;; set lisp system
-    (setq inferior-lisp-program "/usr/local/bin/sbcl"))))
+ ((string-equal system-type "gnu/linux")
+  (progn
+    (message "Linux"))))
 
 ;; remove toolbar
-(tool-bar-mode -1)
+;;(tool-bar-mode -1)
 
 ;; packages
 (require 'package)
@@ -51,6 +38,7 @@
 
 (when (< emacs-major-version 24)
   ;; For important compatibility libraries like cl-lib
+  
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
@@ -61,34 +49,23 @@
 (require 'org-install)
 (require 'ox-md)
 (require 'ox-odt)
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((sh . true) (python . true) (lisp . true) (scheme . true) (ditaa . true))
-)
 
 ;; don't show validate link in html export footer
 (setq org-html-validation-link nil)
 
 (setq org-src-fontify-natively t)
 
-;; slime
-(setq slime-contribs '(slime-fancy))
+;; line wrap
+(setq line-move-visual t)
+
+;; always have spellchecking on
+(add-hook 'org-mode-hook 'turn-on-flyspell)
+
+;; visual word wrap
+(global-visual-line-mode 1)
 
 ;; theme
 (load-theme 'twilight t)
-
-;; hippie expand - provides a variety of completions and expansions
-(setq hippie-expand-try-functions-list
-      '(try-expand-dabbrev
-	try-expand-dabbrev-all-buffers
-	try-expand-dabbrev-from-kill
-	try-complete-file-name-partially
-	try-complete-file-name
-	try-expand-all-abbrevs
-	try-expand-list
-	try-expand-line
-	try-complete-lisp-symbol-partially
-	try-complete-lisp-symbol))
 
 ;; Save here instead of littering current directory with emacs backup files
 (setq backup-directory-alist `(("." . "~/.saves")))
