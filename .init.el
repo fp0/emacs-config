@@ -16,7 +16,7 @@
       ;; '(ispell-program-name "C:\\Program Files (x86)\\Aspell\\bin\\aspell.exe"))))
 
       ;; ditaa org mode ascii diagrams
-      (setq org-ditaa-jar-path "d:/bin/ditaa0_9.jar")
+      ;;(setq org-ditaa-jar-path "d:/bin/ditaa0_9.jar")
    )
  )
  ((string-equal system-type "darwin")
@@ -31,11 +31,8 @@
    (progn
      (message "Linux"))))
 
-;; remove toolbar
-;;(tool-bar-mode -1)
 
 ;; packages
-
 (require 'package)
 
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
@@ -51,12 +48,10 @@
 
 (package-initialize)
 
-
 ;; org mode setup
 (require 'org-install)
 (require 'ox-md)
 (require 'ox-odt)
-
 
 (org-babel-do-load-languages 'org-babel-load-languages '( 
         (ditaa . t)))
